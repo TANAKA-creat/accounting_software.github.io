@@ -3,61 +3,65 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Detail;
+use App\Models\Credit;
 
-class DetailController extends Controller
+class CreditController extends Controller
 {
-
     //index
     public function index() {
 
-         $datetime = Detail::all();
-         $details = Detail::all();
+         $datetime_credit = Credit::all();
+         $credits = Credit::all();
 
-        return view('index')
-         ->with(['datetime'=>$datetime])
-         ->with(['details'=> $details]);
+        return view('details.index')
+         ->with(['datetime_credit'=>$datetime_credit])
+        //  ->with(['credits'=> $credits]);
+        ->with(['credits',$credits]);
     }
 
-    //show
-    public function show() {
+    //show2
+    public function show2() {
 
-        $datetime = Detail::all();
-        $details = Detail::all();
+        $datetime_credit = Credit::all();
+        $credits= Credit::all();
 
-        return view('details.show')
-         ->with(['datetime' => $datetime])
-         ->with(['details'=> $details]);
+        return view('credits.show2')
+         ->with(['datetime_credit' => $datetime_credit])
+         ->with(['credits'=> $credits]);
     }
 
-     //create
-     public function create() {
+     //create2
+     public function create2() {
 
-        return view('details.create');
+        return view('credits.create2');
     }
 
-    //store
+    //store2
     public function store(Request $request) {
 
         $request->validate([
-            'customer' => 'required',
-            'rmb' => 'required',
-            'usd' => 'required',
+            'datetime_credit' => 'required',
+            'creditor' => 'required',
+            'rmb_credit' => 'required',
+            'usd_credit' => 'required',
         ],[
-            'customer.required' => '顧客名記録必須',
-            'rmb.required' => '人民元(rmb)記録必須。ない場合は0を記録すること',
-            'usd.required' => '米ドル(usd)記録必須。ない場合は0を記録すること',
+            'datetime_credit.required' => '記録日を記入してください',
+            'creditor.required' => '顧客名を記入してください',
+            'rmb_credit.required' => '人民元(rmb)ない場合は0を記録してください',
+            'usd_credit.required' => '米ドル(usd)ない場合は0を記録してください',
         ]);
 
-        $details = new Detail();
-        $details->datetime = $request->datetime;
-        $details->customer = $request->customer;
-        $details->rmb = $request->rmb;
-        $details->usd = $request->usd;
-        $details->save();
+        $credits = new Credit();
+        $credits ->datetime_credit = $request->datetime_credit;
+        $credits->creditor = $request->creditor;
+        $credits->rmb_credit = $request->rmb_credit;
+        $credits->usd_credit = $request->usd_credit;
+        $credits->save();
 
         return redirect()
-         ->route('details.index');
+         ->route('credits.index');
 
     }
 }
+
+
